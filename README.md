@@ -2,6 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Continuous Integration](https://github.com/mathieucarbou/MycilaLogger/actions/workflows/ci.yml/badge.svg)](https://github.com/mathieucarbou/MycilaLogger/actions/workflows/ci.yml)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/mathieucarbou/library/MycilaLogger.svg)](https://registry.platformio.org/libraries/mathieucarbou/MycilaLogger)
 
 A simple and efficient logging library for Arduino / ESP32.
 
