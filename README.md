@@ -61,7 +61,7 @@ D      8102600 loopTask   (1)  WEBSITE Published in 38 ms
 ## Configuration
 
 - Colors are supported with `-D CONFIG_ARDUHAL_LOG_COLORS`
-- You have access to a few define for feature detection: `MYCILA_LOGGING_VERSION`
+- You have access to a few define for feature detection: `MYCILA_LOGGER_VERSION`
 
 ## Thread safety
 

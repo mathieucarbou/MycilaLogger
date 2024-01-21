@@ -7,10 +7,13 @@
 #include <StreamUtils.h>
 #include <vector>
 
-#define MYCILA_LOGGING_VERSION "1.0.0"
-#define MYCILA_LOGGING_VERSION_MAJOR 1
-#define MYCILA_LOGGING_VERSION_MINOR 0
-#define MYCILA_LOGGING_VERSION_REVISION 0
+#define MYCILA_LOGGER_VERSION "1.0.0"
+#define MYCILA_LOGGER_VERSION_MAJOR 1
+#define MYCILA_LOGGER_VERSION_MINOR 0
+#define MYCILA_LOGGER_VERSION_REVISION 0
+
+#define MYCILA_LOGGER_TASK_NAME_LENGTH 10
+#define MYCILA_LOGGER_TAG_LENGTH 10
 
 namespace Mycila {
   class LoggerClass {
@@ -61,7 +64,7 @@ namespace Mycila {
 #endif
 
         // esp_timer_get_time in us, so shift left 10 to get ms (1024 vs 1000 won't hurt the logging feature)
-        buffer.printf("%c %12u %-10.10s (%u) %8s ", _codes[level], static_cast<uint32_t>(esp_timer_get_time() >> 10), pcTaskGetName(NULL), xPortGetCoreID(), tag);
+        buffer.printf("%c %12u %-" MYCILA_LOGGER_TASK_NAME_LENGTH "." MYCILA_LOGGER_TASK_NAME_LENGTH "s (%u) %-" MYCILA_LOGGER_TAG_LENGTH "." MYCILA_LOGGER_TAG_LENGTH "s ", _codes[level], static_cast<uint32_t>(esp_timer_get_time() >> 10), pcTaskGetName(NULL), xPortGetCoreID(), tag);
         buffer.printf(format, args...);
 
 #if CONFIG_ARDUHAL_LOG_COLORS
