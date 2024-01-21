@@ -3,7 +3,7 @@
 uint8_t Mycila::LoggerClass::getLevel() const { return ARDUHAL_LOG_LEVEL_DEBUG; }
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(115200);
   while (!Serial)
     continue;
 
