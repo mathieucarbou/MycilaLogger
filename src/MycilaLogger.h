@@ -18,9 +18,13 @@
 namespace Mycila {
   class LoggerClass {
     public:
+#ifdef MYCILA_LOGGER_CUSTOM_LEVEL
       // To be implemented by the user.
       // Returns the current logging level, which could be sourced from a config system or a macro
       uint8_t getLevel() const;
+#else
+      uint8_t getLevel() const { return ARDUHAL_LOG_LEVEL; }
+#endif
 
     public:
       void forwardTo(Print* printer) { _outputs.push_back(printer); }

@@ -1,4 +1,8 @@
+#define MYCILA_LOGGER_CUSTOM_LEVEL
+
 #include <MycilaLogger.h>
+
+uint8_t Mycila::LoggerClass::getLevel() const { return ARDUHAL_LOG_LEVEL_DEBUG; }
 
 void setup() {
   Serial.begin(115200);

@@ -70,6 +70,9 @@ jobs:
       - name: Install StreamUtils
         run: arduino-cli lib install StreamUtils@1.8.0
 
+      - name: Build AdvancedLogger
+        run: arduino-cli compile --library . --warnings all -b ${{ matrix.board }} "examples/AdvancedLogger/AdvancedLogger.ino"
+
       - name: Build Logger
         run: arduino-cli compile --library . --warnings all -b ${{ matrix.board }} "examples/Logger/Logger.ino"
 
@@ -108,6 +111,9 @@ jobs:
 
       - name: Install platform "${{ matrix.platform }}"
         run: platformio platform install ${{ matrix.platform }}
+
+      - name: Build AdvancedLogger
+        run: platformio ci "examples/AdvancedLogger/AdvancedLogger.ino" -l '.' -b ${{ matrix.board }}
 
       - name: Build Logger
         run: platformio ci "examples/Logger/Logger.ino" -l '.' -b ${{ matrix.board }}
