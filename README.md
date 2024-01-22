@@ -22,6 +22,9 @@ Then use the logger:
 
 ```c++
 Mycila::Logger.debug(TAG, "Published in %u ms", (millis() - start));
+Mycila::Logger.info(TAG, "Published in %u ms", (millis() - start));
+Mycila::Logger.warn(TAG, "Published in %u ms", (millis() - start));
+Mycila::Logger.error(TAG, "Published in %u ms", (millis() - start));
 
 if(Mycila::Logger.isDebugEnabled()) {
   // some expensive debug code
