@@ -31,6 +31,8 @@ namespace Mycila {
 
       bool isDebugEnabled() const { return getLevel() >= ARDUHAL_LOG_LEVEL_DEBUG; }
 
+      std::vector<Print*>& getOutputs() { return _outputs; }
+
       template <typename... Args>
       void debug(const char* tag, const __FlashStringHelper* format, Args... args) { log(ARDUHAL_LOG_LEVEL_DEBUG, tag, reinterpret_cast<const char*>(format), args...); }
 
@@ -77,8 +79,8 @@ namespace Mycila {
 
         buffer.print("\r\n");
 
-        for (auto& _output : _outputs) {
-          _output->print(buffer.str());
+        for (auto& output : _outputs) {
+          output->print(buffer.str());
         }
       }
 
