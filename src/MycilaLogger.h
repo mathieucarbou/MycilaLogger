@@ -23,7 +23,8 @@ namespace Mycila {
       // Returns the current logging level, which could be sourced from a config system or a macro
       uint8_t getLevel() const;
 #else
-      uint8_t getLevel() const { return ARDUHAL_LOG_LEVEL; }
+      uint8_t getLevel() const { return _level; }
+      void setLevel(uint8_t level) { _level = level; }
 #endif
 
     public:
@@ -60,8 +61,13 @@ namespace Mycila {
     private:
       template <typename... Args>
       void log(uint8_t level, const char* tag, const char* format, Args... args) {
+#ifdef MYCILA_LOGGER_CUSTOM_LEVEL
         if (level > getLevel())
           return;
+#else
+        if (level > _level)
+          return;
+#endif
 
         StringPrint buffer;
 
@@ -85,6 +91,9 @@ namespace Mycila {
       }
 
     private:
+#ifndef MYCILA_LOGGER_CUSTOM_LEVEL
+      uint32_t _level = ARDUHAL_LOG_LEVEL;
+#endif
       std::vector<Print*> _outputs;
       const char* _codes = " EWID";
 #if CONFIG_ARDUHAL_LOG_COLORS
