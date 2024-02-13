@@ -4,18 +4,31 @@
  */
 #pragma once
 
-#include <StreamUtils.h>
+#include <Arduino.h>
+#include <Print.h>
+#include <WString.h>
+#include <esp32-hal-log.h>
 #include <vector>
 
-#define MYCILA_LOGGER_VERSION "2.1.0"
+#define MYCILA_LOGGER_VERSION "2.2.0"
 #define MYCILA_LOGGER_VERSION_MAJOR 2
-#define MYCILA_LOGGER_VERSION_MINOR 1
+#define MYCILA_LOGGER_VERSION_MINOR 2
 #define MYCILA_LOGGER_VERSION_REVISION 0
 
 #define MYCILA_LOGGER_TASK_NAME_LENGTH "10"
 #define MYCILA_LOGGER_TAG_LENGTH "10"
 
 namespace Mycila {
+  class LoggerBuffer : public Print {
+    public:
+      size_t write(const uint8_t* p, size_t n) override { return _buffer.concat(reinterpret_cast<const char*>(p), n) ? n : 0; }
+      size_t write(uint8_t c) override { return _buffer.concat(static_cast<char>(c)) ? 1 : 0; }
+      const String& buffer() const { return _buffer; }
+
+    private:
+      String _buffer;
+  };
+
   class LoggerClass {
     public:
 #ifdef MYCILA_LOGGER_CUSTOM_LEVEL
@@ -35,18 +48,6 @@ namespace Mycila {
       std::vector<Print*>& getOutputs() { return _outputs; }
 
       template <typename... Args>
-      void debug(const char* tag, const __FlashStringHelper* format, Args... args) { log(ARDUHAL_LOG_LEVEL_DEBUG, tag, reinterpret_cast<const char*>(format), args...); }
-
-      template <typename... Args>
-      void info(const char* tag, const __FlashStringHelper* format, Args... args) { log(ARDUHAL_LOG_LEVEL_INFO, tag, reinterpret_cast<const char*>(format), args...); }
-
-      template <typename... Args>
-      void warn(const char* tag, const __FlashStringHelper* format, Args... args) { log(ARDUHAL_LOG_LEVEL_WARN, tag, reinterpret_cast<const char*>(format), args...); }
-
-      template <typename... Args>
-      void error(const char* tag, const __FlashStringHelper* format, Args... args) { log(ARDUHAL_LOG_LEVEL_ERROR, tag, reinterpret_cast<const char*>(format), args...); }
-
-      template <typename... Args>
       void debug(const char* tag, const char* format, Args... args) { log(ARDUHAL_LOG_LEVEL_DEBUG, tag, format, args...); }
 
       template <typename... Args>
@@ -58,7 +59,6 @@ namespace Mycila {
       template <typename... Args>
       void error(const char* tag, const char* format, Args... args) { log(ARDUHAL_LOG_LEVEL_ERROR, tag, format, args...); }
 
-    private:
       template <typename... Args>
       void log(uint8_t level, const char* tag, const char* format, Args... args) {
 #ifdef MYCILA_LOGGER_CUSTOM_LEVEL
@@ -69,7 +69,7 @@ namespace Mycila {
           return;
 #endif
 
-        StringPrint buffer;
+        LoggerBuffer buffer;
 
 #if CONFIG_ARDUHAL_LOG_COLORS
         buffer.print(_colors[level]);
@@ -85,9 +85,8 @@ namespace Mycila {
 
         buffer.print("\r\n");
 
-        for (auto& output : _outputs) {
-          output->print(buffer.str());
-        }
+        for (auto& output : _outputs)
+          output->print(buffer.buffer());
       }
 
     private:

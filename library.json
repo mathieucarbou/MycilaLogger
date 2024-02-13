@@ -1,6 +1,6 @@
 {
   "name": "MycilaLogger",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "A simple and efficient logging library",
   "keywords": "logging",
   "homepage": "https://github.com/mathieucarbou/MycilaLogger",
@@ -18,14 +18,6 @@
     "espressif32"
   ],
   "headers": "MycilaLogger.h",
-  "dependencies": [
-    {
-      "owner": "bblanchon",
-      "name": "StreamUtils",
-      "version": "^1.8.0",
-      "platforms": "espressif32"
-    }
-  ],
   "export": {
     "include": [
       "examples",

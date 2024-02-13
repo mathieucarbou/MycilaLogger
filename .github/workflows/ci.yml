@@ -67,9 +67,6 @@ jobs:
       - name: Install core
         run: arduino-cli core install --additional-urls "${{ matrix.index_url }}" ${{ matrix.core }}
 
-      - name: Install StreamUtils
-        run: arduino-cli lib install StreamUtils@1.8.0
-
       - name: Build AdvancedLogger
         run: arduino-cli compile --library . --warnings all -b ${{ matrix.board }} "examples/AdvancedLogger/AdvancedLogger.ino"
 
