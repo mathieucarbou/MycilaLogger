@@ -76,11 +76,7 @@ namespace Mycila {
 #endif
 
         // esp_timer_get_time in us, so shift left 10 to get ms (1024 vs 1000 won't hurt the logging feature)
-#if ESP_IDF_VERSION_MAJOR >= 5
-        buffer.printf("%c %12lu %-" MYCILA_LOGGER_TASK_NAME_LENGTH "." MYCILA_LOGGER_TASK_NAME_LENGTH "s (%u) %-" MYCILA_LOGGER_TAG_LENGTH "." MYCILA_LOGGER_TAG_LENGTH "s ", _codes[level], static_cast<uint32_t>(esp_timer_get_time() >> 10), pcTaskGetName(NULL), xPortGetCoreID(), tag);
-#else
-        buffer.printf("%c %12u %-" MYCILA_LOGGER_TASK_NAME_LENGTH "." MYCILA_LOGGER_TASK_NAME_LENGTH "s (%u) %-" MYCILA_LOGGER_TAG_LENGTH "." MYCILA_LOGGER_TAG_LENGTH "s ", _codes[level], static_cast<uint32_t>(esp_timer_get_time() >> 10), pcTaskGetName(NULL), xPortGetCoreID(), tag);
-#endif
+        buffer.printf("%c %12" PRIu32 " %-" MYCILA_LOGGER_TASK_NAME_LENGTH "." MYCILA_LOGGER_TASK_NAME_LENGTH "s (%u) %-" MYCILA_LOGGER_TAG_LENGTH "." MYCILA_LOGGER_TAG_LENGTH "s ", _codes[level], static_cast<uint32_t>(esp_timer_get_time() >> 10), pcTaskGetName(NULL), xPortGetCoreID(), tag);
         buffer.printf(format, args...);
 
 #if CONFIG_ARDUHAL_LOG_COLORS
