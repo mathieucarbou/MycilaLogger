@@ -10,9 +10,9 @@
 #include <esp32-hal-log.h>
 #include <vector>
 
-#define MYCILA_LOGGER_VERSION "3.0.0"
+#define MYCILA_LOGGER_VERSION "3.1.0"
 #define MYCILA_LOGGER_VERSION_MAJOR 3
-#define MYCILA_LOGGER_VERSION_MINOR 0
+#define MYCILA_LOGGER_VERSION_MINOR 1
 #define MYCILA_LOGGER_VERSION_REVISION 0
 
 namespace Mycila {
