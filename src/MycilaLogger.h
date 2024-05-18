@@ -15,9 +15,6 @@
 #define MYCILA_LOGGER_VERSION_MINOR 0
 #define MYCILA_LOGGER_VERSION_REVISION 0
 
-#define MYCILA_LOGGER_TASK_NAME_LENGTH "10"
-#define MYCILA_LOGGER_TAG_LENGTH "10"
-
 namespace Mycila {
   class LoggerBuffer : public Print {
     public:
@@ -75,8 +72,15 @@ namespace Mycila {
         buffer.print(_colors[level]);
 #endif
 
-        // esp_timer_get_time in us, so shift left 10 to get ms (1024 vs 1000 won't hurt the logging feature)
-        buffer.printf("%c %12" PRIu32 " %-" MYCILA_LOGGER_TASK_NAME_LENGTH "." MYCILA_LOGGER_TASK_NAME_LENGTH "s (%u) %-" MYCILA_LOGGER_TAG_LENGTH "." MYCILA_LOGGER_TAG_LENGTH "s ", _codes[level], static_cast<uint32_t>(esp_timer_get_time() >> 10), pcTaskGetName(NULL), xPortGetCoreID(), tag);
+        buffer.printf("[%6" PRIu32 "][%c][%s:%u] %s(): [%s] [%d|%s] ",
+                      static_cast<uint32_t>(esp_timer_get_time() >> 10),
+                      _codes[level],
+                      pathToFileName(__FILE__),
+                      __LINE__,
+                      __FUNCTION__,
+                      tag,
+                      xPortGetCoreID(),
+                      pcTaskGetName(NULL));
         buffer.printf(format, args...);
 
 #if CONFIG_ARDUHAL_LOG_COLORS
