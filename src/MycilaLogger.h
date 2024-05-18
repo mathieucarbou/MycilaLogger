@@ -29,7 +29,7 @@ namespace Mycila {
       String _buffer;
   };
 
-  class LoggerClass {
+  class Logger {
     public:
 #ifdef MYCILA_LOGGER_CUSTOM_LEVEL
       // To be implemented by the user.
@@ -99,6 +99,4 @@ namespace Mycila {
       const char* _colors[5] = {"", ARDUHAL_LOG_COLOR_E, ARDUHAL_LOG_COLOR_W, ARDUHAL_LOG_COLOR_I, ARDUHAL_LOG_COLOR_D};
 #endif
   };
-
-  extern LoggerClass Logger;
 } // namespace Mycila

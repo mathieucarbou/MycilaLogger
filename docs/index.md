@@ -12,21 +12,21 @@ First setup the outputs where to forward the logs in the `setup()` method:
 
 ```c++
 Serial.begin(115200);
-Mycila::Logger.forwardTo(&Serial);
+logger.forwardTo(&Serial);
 
 WebSerial.begin(...);
-Mycila::Logger.forwardTo(&Serial);
+logger.forwardTo(&Serial);
 ```
 
 Then use the logger:
 
 ```c++
-Mycila::Logger.debug(TAG, "Published in %u ms", (millis() - start));
-Mycila::Logger.info(TAG, "Published in %u ms", (millis() - start));
-Mycila::Logger.warn(TAG, "Published in %u ms", (millis() - start));
-Mycila::Logger.error(TAG, "Published in %u ms", (millis() - start));
+logger.debug(TAG, "Published in %u ms", (millis() - start));
+logger.info(TAG, "Published in %u ms", (millis() - start));
+logger.warn(TAG, "Published in %u ms", (millis() - start));
+logger.error(TAG, "Published in %u ms", (millis() - start));
 
-if(Mycila::Logger.isDebugEnabled()) {
+if(logger.isDebugEnabled()) {
   // some expensive debug code
 }
 ```
@@ -51,13 +51,13 @@ This method must return the current logging level used in your app.
 Example by re-using `ARDUHAL_LOG_LEVEL`:
 
 ```c++
-uint8_t Mycila::LoggerClass::getLevel() const { return ARDUHAL_LOG_LEVEL; }
+uint8_t Mycila::Logger::getLevel() const { return ARDUHAL_LOG_LEVEL; }
 ```
 
 Example by using a configuration system:
 
 ```c++
-uint8_t Mycila::LoggerClass::getLevel() const {
+uint8_t Mycila::Logger::getLevel() const {
   return Mycila::Config.getBool(KEY_DEBUG_ENABLE) ? ARDUHAL_LOG_LEVEL_DEBUG : ARDUHAL_LOG_LEVEL_INFO;
 }
 ```
