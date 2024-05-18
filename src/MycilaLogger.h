@@ -72,12 +72,9 @@ namespace Mycila {
         buffer.print(_colors[level]);
 #endif
 
-        buffer.printf("[%6" PRIu32 "][%c][%s:%u] %s(): [%s] [%d|%s] ",
+        buffer.printf("[%6" PRIu32 "][%c][%s][%d][%s] ",
                       static_cast<uint32_t>(esp_timer_get_time() >> 10),
                       _codes[level],
-                      pathToFileName(__FILE__),
-                      __LINE__,
-                      __FUNCTION__,
                       tag,
                       xPortGetCoreID(),
                       pcTaskGetName(NULL));
