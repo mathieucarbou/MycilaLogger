@@ -10,14 +10,19 @@
 #include <esp32-hal-log.h>
 #include <vector>
 
-#define MYCILA_LOGGER_VERSION "3.1.1"
-#define MYCILA_LOGGER_VERSION_MAJOR 3
-#define MYCILA_LOGGER_VERSION_MINOR 1
-#define MYCILA_LOGGER_VERSION_REVISION 1
+#define MYCILA_LOGGER_VERSION          "3.1.2"
+#define MYCILA_LOGGER_VERSION_MAJOR    3
+#define MYCILA_LOGGER_VERSION_MINOR    1
+#define MYCILA_LOGGER_VERSION_REVISION 2
+
+#ifndef MYCILA_LOGGER_BUFFER_SIZE
+#define MYCILA_LOGGER_BUFFER_SIZE 256
+#endif
 
 namespace Mycila {
   class LoggerBuffer : public Print {
     public:
+      LoggerBuffer() { _buffer.reserve(MYCILA_LOGGER_BUFFER_SIZE); };
       size_t write(const uint8_t* p, size_t n) override { return _buffer.concat(reinterpret_cast<const char*>(p), n) ? n : 0; }
       size_t write(uint8_t c) override { return _buffer.concat(static_cast<char>(c)) ? 1 : 0; }
       const String& buffer() const { return _buffer; }
