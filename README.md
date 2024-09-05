@@ -1,8 +1,14 @@
 # MycilaLogger
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Continuous Integration](https://github.com/mathieucarbou/MycilaLogger/actions/workflows/ci.yml/badge.svg)](https://github.com/mathieucarbou/MycilaLogger/actions/workflows/ci.yml)
+[![Latest Release](https://img.shields.io/github/release/mathieucarbou/MycilaLogger.svg)](https://GitHub.com/mathieucarbou/MycilaLogger/releases/)
 [![PlatformIO Registry](https://badges.registry.platformio.org/packages/mathieucarbou/library/MycilaLogger.svg)](https://registry.platformio.org/libraries/mathieucarbou/MycilaLogger)
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](code_of_conduct.md)
+
+[![Build](https://github.com/mathieucarbou/MycilaLogger/actions/workflows/ci.yml/badge.svg)](https://github.com/mathieucarbou/MycilaLogger/actions/workflows/ci.yml)
+[![GitHub latest commit](https://badgen.net/github/last-commit/mathieucarbou/MycilaLogger)](https://GitHub.com/mathieucarbou/MycilaLogger/commit/)
+[![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/mathieucarbou/MycilaLogger)
 
 A simple and efficient logging library for Arduino / ESP32.
 
@@ -42,25 +48,6 @@ D      8102600 loopTask   (1)  WEBSITE Published in 38 ms
 - `WEBSITE` is the tag
 
 Note: the logging level can be controlled with the standard Arduino flag: `-D CORE_DEBUG_LEVEL=ARDUHAL_LOG_LEVEL_DEBUG` for example.
-
-## Advanced Usage: Dynamic logging level
-
-Define `-D MYCILA_LOGGER_CUSTOM_LEVEL` and implement the `getLevel()` method.
-This method must return the current logging level used in your app.
-
-Example by re-using `ARDUHAL_LOG_LEVEL`:
-
-```c++
-uint8_t Mycila::Logger::getLevel() const { return ARDUHAL_LOG_LEVEL; }
-```
-
-Example by using a configuration system:
-
-```c++
-uint8_t Mycila::Logger::getLevel() const {
-  return Mycila::Config.getBool(KEY_DEBUG_ENABLE) ? ARDUHAL_LOG_LEVEL_DEBUG : ARDUHAL_LOG_LEVEL_INFO;
-}
-```
 
 ## Tips
 

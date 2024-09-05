@@ -1,6 +1,5 @@
 .DS_Store
 .lh
 /.pio
-/.vscode/*
-!/.vscode/settings.json
+/.vscode
 /logs

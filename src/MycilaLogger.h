@@ -6,13 +6,13 @@
 
 #include <Arduino.h>
 #include <Print.h>
-#include <WString.h>
+#include <StreamString.h>
 #include <esp32-hal-log.h>
 #include <vector>
 
-#define MYCILA_LOGGER_VERSION          "3.1.2"
-#define MYCILA_LOGGER_VERSION_MAJOR    3
-#define MYCILA_LOGGER_VERSION_MINOR    1
+#define MYCILA_LOGGER_VERSION "3.1.2"
+#define MYCILA_LOGGER_VERSION_MAJOR 3
+#define MYCILA_LOGGER_VERSION_MINOR 1
 #define MYCILA_LOGGER_VERSION_REVISION 2
 
 #ifndef MYCILA_LOGGER_BUFFER_SIZE
@@ -20,29 +20,11 @@
 #endif
 
 namespace Mycila {
-  class LoggerBuffer : public Print {
-    public:
-      LoggerBuffer() { _buffer.reserve(MYCILA_LOGGER_BUFFER_SIZE); };
-      size_t write(const uint8_t* p, size_t n) override { return _buffer.concat(reinterpret_cast<const char*>(p), n) ? n : 0; }
-      size_t write(uint8_t c) override { return _buffer.concat(static_cast<char>(c)) ? 1 : 0; }
-      const String& buffer() const { return _buffer; }
-
-    private:
-      String _buffer;
-  };
-
   class Logger {
     public:
-#ifdef MYCILA_LOGGER_CUSTOM_LEVEL
-      // To be implemented by the user.
-      // Returns the current logging level, which could be sourced from a config system or a macro
-      uint8_t getLevel() const;
-#else
       uint8_t getLevel() const { return _level; }
       void setLevel(uint8_t level) { _level = level; }
-#endif
 
-    public:
       void forwardTo(Print* printer) { _outputs.push_back(printer); }
 
       bool isDebugEnabled() const { return getLevel() >= ARDUHAL_LOG_LEVEL_DEBUG; }
@@ -71,7 +53,8 @@ namespace Mycila {
           return;
 #endif
 
-        LoggerBuffer buffer;
+        StreamString buffer;
+        buffer.reserve(MYCILA_LOGGER_BUFFER_SIZE);
 
 #if CONFIG_ARDUHAL_LOG_COLORS
         buffer.print(_colors[level]);
@@ -92,7 +75,7 @@ namespace Mycila {
         buffer.print("\r\n");
 
         for (auto& output : _outputs)
-          output->print(buffer.buffer());
+          output->print(buffer);
       }
 
     private:

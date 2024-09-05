@@ -43,25 +43,6 @@ D      8102600 loopTask   (1)  WEBSITE Published in 38 ms
 
 Note: the logging level can be controlled with the standard Arduino flag: `-D CORE_DEBUG_LEVEL=ARDUHAL_LOG_LEVEL_DEBUG` for example.
 
-## Advanced Usage: Dynamic logging level
-
-Define `-D MYCILA_LOGGER_CUSTOM_LEVEL` and implement the `getLevel()` method.
-This method must return the current logging level used in your app.
-
-Example by re-using `ARDUHAL_LOG_LEVEL`:
-
-```c++
-uint8_t Mycila::Logger::getLevel() const { return ARDUHAL_LOG_LEVEL; }
-```
-
-Example by using a configuration system:
-
-```c++
-uint8_t Mycila::Logger::getLevel() const {
-  return Mycila::Config.getBool(KEY_DEBUG_ENABLE) ? ARDUHAL_LOG_LEVEL_DEBUG : ARDUHAL_LOG_LEVEL_INFO;
-}
-```
-
 ## Tips
 
 - Colors are supported with `-D CONFIG_ARDUHAL_LOG_COLORS`

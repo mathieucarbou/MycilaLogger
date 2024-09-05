@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 
-name: Continuous Integration
+name: Build
 
 on:
   workflow_dispatch:
@@ -68,9 +68,6 @@ jobs:
       - name: Install core
         run: arduino-cli core install --additional-urls "${{ matrix.index_url }}" ${{ matrix.core }}
 
-      - name: Build AdvancedLogger
-        run: arduino-cli compile --library . --warnings all -b ${{ matrix.board }} "examples/AdvancedLogger/AdvancedLogger.ino"
-
       - name: Build Logger
         run: arduino-cli compile --library . --warnings all -b ${{ matrix.board }} "examples/Logger/Logger.ino"
 
@@ -121,7 +118,5 @@ jobs:
           python-version: "3.x"
       - run: pip install platformio
       - run: platformio platform install ${{ matrix.platform }}
-      - name: Build AdvancedLogger
-        run: platformio ci "examples/AdvancedLogger/AdvancedLogger.ino" -l '.' -b ${{ matrix.board }} ${{ matrix.opts }}
       - name: Build Logger
         run: platformio ci "examples/Logger/Logger.ino" -l '.' -b ${{ matrix.board }} ${{ matrix.opts }}
