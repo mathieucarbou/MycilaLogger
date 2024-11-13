@@ -4,7 +4,6 @@
  */
 #pragma once
 
-#include <Arduino.h>
 #include <Print.h>
 #include <StreamString.h>
 #include <esp32-hal-log.h>
