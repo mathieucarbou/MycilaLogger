@@ -1,3 +1,4 @@
+#include <Arduino.h>
 #include <MycilaLogger.h>
 
 Mycila::Logger logger;
@@ -7,13 +8,22 @@ void setup() {
   while (!Serial)
     continue;
 
-  logger.forwardTo(&Serial);
-}
+  Mycila::Logger::redirectArduinoLogs(logger);
 
-void loop() {
+  logger.setLevel(ARDUHAL_LOG_LEVEL_DEBUG);
+  logger.forwardTo(&Serial);
+
+  log_d("Arduino debug message");
+  log_i("Arduino info message");
+  log_w("Arduino warning message");
+  log_e("Arduino error message");
+
   logger.debug("APP", "A debug message");
   logger.info("APP", "An info message");
   logger.warn("APP", "A warning message");
   logger.error("APP", "An error message");
-  delay(5000);
+}
+
+void loop() {
+  delay(500);
 }
