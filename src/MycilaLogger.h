@@ -4,7 +4,7 @@
  */
 #pragma once
 
-#include <Print.h>
+#include <Arduino.h>
 #include <StreamString.h>
 #include <esp32-hal-log.h>
 #include <vector>
@@ -56,12 +56,12 @@ namespace Mycila {
         buffer.reserve(MYCILA_LOGGER_BUFFER_SIZE);
 
 #if CONFIG_ARDUHAL_LOG_COLORS
-        buffer.print(_colors[level]);
+        buffer.print(_COLORS[level]);
 #endif
 
         buffer.printf("[%6" PRIu32 "][%c][%s][%d][%s] ",
                       static_cast<uint32_t>(esp_timer_get_time() >> 10),
-                      _codes[level],
+                      _CODES[level],
                       tag,
                       xPortGetCoreID(),
                       pcTaskGetName(NULL));
@@ -77,14 +77,31 @@ namespace Mycila {
           output->print(buffer);
       }
 
+    public:
+      /**
+       * @brief Redirects the Arduino logs to this logger
+       * @param logger The logger to redirect the logs to
+       **/
+      static void redirectArduinoLogs(Logger& logger); // NOLINT
+
+      void redirectArduinoLogs() { redirectArduinoLogs(*this); }
+
     private:
+      std::vector<Print*> _outputs;
 #ifndef MYCILA_LOGGER_CUSTOM_LEVEL
       uint32_t _level = ARDUHAL_LOG_LEVEL;
 #endif
-      std::vector<Print*> _outputs;
-      const char* _codes = " EWID";
+
+    private:
+      // redirection
+      static StreamString* _arduinoLogBuffer;
+      static Logger* _arduinoLogDestination;
+      // static callback
+      static void log_char(char c);
+      // constants
+      static char _CODES[5];
 #if CONFIG_ARDUHAL_LOG_COLORS
-      const char* _colors[5] = {"", ARDUHAL_LOG_COLOR_E, ARDUHAL_LOG_COLOR_W, ARDUHAL_LOG_COLOR_I, ARDUHAL_LOG_COLOR_D};
+      static const char* _COLORS[5];
 #endif
   };
 } // namespace Mycila
