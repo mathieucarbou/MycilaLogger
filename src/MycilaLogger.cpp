@@ -4,10 +4,6 @@
  */
 #include "MycilaLogger.h"
 
-#include <esp_log.h>
-
-#include <algorithm>
-
 StreamString* Mycila::Logger::_arduinoLogBuffer = nullptr;
 Mycila::Logger* Mycila::Logger::_arduinoLogDestination = nullptr;
 
@@ -22,35 +18,19 @@ void Mycila::Logger::log_char(char c) {
     return;
   _arduinoLogBuffer->write(c);
   if (c == '\n') {
-    for (auto& output : _arduinoLogDestination->_outputs) {
+    for (auto& output : _arduinoLogDestination->_outputs)
       output->print(*_arduinoLogBuffer);
-    }
     _arduinoLogBuffer->clear();
   }
 }
 
 void Mycila::Logger::redirectArduinoLogs(Logger& logger) {
-  if (_arduinoLogBuffer == nullptr) {
+  if (!_arduinoLogBuffer) {
     _arduinoLogBuffer = new StreamString();
     _arduinoLogBuffer->reserve(MYCILA_LOGGER_BUFFER_SIZE);
+    // will override default arduino installed functions which sends logs to UART
+    ets_install_putc1(log_char);
   }
-  // will override default arduino installed functions which sends logs to UART
-  ets_install_putc1(log_char);
-  ets_install_putc2(NULL);
+  _arduinoLogBuffer->clear();
   _arduinoLogDestination = &logger;
-}
-
-int Mycila::Logger::log_vprintf(const char* format, va_list args) {
-  if (!_espidfLogDestination)
-    return 0;
-  size_t written = 0;
-  for (auto& output : _espidfLogDestination->_outputs) {
-    written = std::max(written, output->vprintf(format, args));
-  }
-  return written;
-}
-
-void Mycila::Logger::redirectESPIDFLogs(Logger& logger) {
-  esp_log_set_vprintf(log_vprintf);
-  _espidfLogDestination = &logger;
 }

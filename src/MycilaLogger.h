@@ -83,10 +83,8 @@ namespace Mycila {
        * @param logger The logger to redirect the logs to
        **/
       static void redirectArduinoLogs(Logger& logger); // NOLINT
-      void redirectArduinoLogs() { redirectArduinoLogs(*this); }
 
-      static void redirectESPIDFLogs(Logger& logger); // NOLINT
-      void redirectESPIDFLogs() { redirectESPIDFLogs(*this); }
+      void redirectArduinoLogs() { redirectArduinoLogs(*this); }
 
     private:
       std::vector<Print*> _outputs;
@@ -98,10 +96,8 @@ namespace Mycila {
       // redirection
       static StreamString* _arduinoLogBuffer;
       static Logger* _arduinoLogDestination;
-      static Logger* _espidfLogDestination;
       // static callback
       static void log_char(char c);
-      static int log_vprintf(const char* format, va_list args);
       // constants
       static char _CODES[5];
 #if CONFIG_ARDUHAL_LOG_COLORS
