@@ -8,7 +8,6 @@
 
 [![Build](https://github.com/mathieucarbou/MycilaLogger/actions/workflows/ci.yml/badge.svg)](https://github.com/mathieucarbou/MycilaLogger/actions/workflows/ci.yml)
 [![GitHub latest commit](https://badgen.net/github/last-commit/mathieucarbou/MycilaLogger)](https://GitHub.com/mathieucarbou/MycilaLogger/commit/)
-[![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/mathieucarbou/MycilaLogger)
 
 A simple and efficient logging library for Arduino / ESP32.
 
