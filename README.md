@@ -1,3 +1,7 @@
+# ARCHIVE NOTICE
+
+Do not use this library anymore: use ESP-IDF logging instead and the redirect capability of Arduino and ESP-IDF.
+
 # MycilaLogger
 
 [![Latest Release](https://img.shields.io/github/release/mathieucarbou/MycilaLogger.svg)](https://GitHub.com/mathieucarbou/MycilaLogger/releases/)
